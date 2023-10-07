@@ -50,8 +50,9 @@ import com.axel.example.tienda.R
 import com.axel.example.tienda.presetantion.navigation.graph.RootNavGraph
 import com.axel.example.tienda.presetantion.ui.theme.TiendaTheme
 import com.axel.example.tienda.presetantion.views.auth.login.iniciarSesionVista
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private lateinit var navController: NavHostController
     

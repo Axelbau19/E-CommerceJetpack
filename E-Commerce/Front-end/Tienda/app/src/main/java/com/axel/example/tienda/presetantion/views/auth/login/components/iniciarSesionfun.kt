@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.axel.example.tienda.R
@@ -48,14 +49,13 @@ import com.axel.example.tienda.presetantion.components.DefaultButtom
 import com.axel.example.tienda.presetantion.components.DefaultTextField
 import com.axel.example.tienda.presetantion.components.fondoPantallaApp
 import com.axel.example.tienda.presetantion.navigation.screen.AuthScreen
+import com.axel.example.tienda.presetantion.views.auth.login.IniciarSesionViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun  iniciarSesion(paddingValues: PaddingValues,navController: NavHostController){
+fun  iniciarSesion(paddingValues: PaddingValues,navController: NavHostController, vM : IniciarSesionViewModel = hiltViewModel()){
     val backGround = painterResource(id = R.drawable.fondito)
     val logo = painterResource(id = R.drawable.logo)
-    var correoElectronico by remember { mutableStateOf("") }
-    var contraseñaUsuario by remember { mutableStateOf("") }
     Box(modifier = Modifier
         .fillMaxSize()
         .padding(paddingValues = paddingValues)){
@@ -112,18 +112,18 @@ fun  iniciarSesion(paddingValues: PaddingValues,navController: NavHostController
                     )
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = correoElectronico,
+                        value = vM.correoElectronico,
                         onValueChange ={text->
-                                       correoElectronico=text
+                            vM.correoElectronico=text
                         },
                         label = "Correo Electrónico",
                         icon = Icons.Default.Email
                     )
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = contraseñaUsuario,
+                        value = vM.contraseñaUsuario,
                         onValueChange ={text ->
-                                       contraseñaUsuario=text
+                                       vM.contraseñaUsuario=text
                         },
                         label = "Contraseña",
                         icon = Icons.Default.Lock,
