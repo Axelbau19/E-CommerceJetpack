@@ -8,6 +8,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class IniciarSesionViewModel  @Inject constructor(): ViewModel()  {
-    var correoElectronico by  mutableStateOf("")
-    var contraseñaUsuario by mutableStateOf("")
+    var state by mutableStateOf(LoginState())
+        private set
+
+
+  fun onEmailinput(correoElectronico:String){
+      state = state.copy(correoElectronico=correoElectronico)
+  }
+    fun onPasswordinput(contraseñaUsuario:String){
+        state = state.copy(contraseñaUsuario=contraseñaUsuario)
+    }
 }

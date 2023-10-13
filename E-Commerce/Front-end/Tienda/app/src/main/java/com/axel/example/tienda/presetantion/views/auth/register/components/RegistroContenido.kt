@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Check
@@ -37,13 +39,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.axel.example.tienda.R
 import com.axel.example.tienda.presetantion.components.DefaultButtom
 import com.axel.example.tienda.presetantion.components.DefaultTextField
 import com.axel.example.tienda.presetantion.components.fondoPantallaApp
+import com.axel.example.tienda.presetantion.views.auth.register.RegisterViewModel
 
 @Composable
-fun RegistroContenido(paddingValues: PaddingValues){
+fun RegistroContenido(paddingValues: PaddingValues, vm:RegisterViewModel = hiltViewModel()){
+    val state = vm.state
     val fondoImagen = painterResource(id = R.drawable.fondito)
     val usuarioImagen = painterResource(id = R.drawable.user_image)
     Box(modifier = Modifier
@@ -67,7 +72,8 @@ fun RegistroContenido(paddingValues: PaddingValues){
             ){
                 Column (modifier = Modifier
                     .background(Color.White)
-                    .padding(start = 30.dp, end = 30.dp, bottom = 30.dp)){
+                    .padding(start = 30.dp, end = 30.dp, bottom = 30.dp)
+                    .verticalScroll(rememberScrollState())){
                     Text(text = "REGISTRARSE",
                         modifier= Modifier
                             .padding(vertical = 20.dp)
@@ -78,46 +84,48 @@ fun RegistroContenido(paddingValues: PaddingValues){
                     )
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "",
-                        onValueChange =  {},
-                        label ="Nombres" ,
+                        value = state.nombre,
+                        onValueChange =  {text -> vm.onNombreInput(text)},
+                        label ="Nombre" ,
                         icon =Icons.Outlined.Person
                     )
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "",
-                        onValueChange =  {},
+                        value = state.apellidos,
+                        onValueChange =  {text -> vm.onApellidoInput(text)},
                         label ="Apellidos" ,
                         icon =Icons.Outlined.Person
                     )
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "",
-                        onValueChange =  {},
+                        value = state.email,
+                        onValueChange =  {text->vm.onEmailInput(text)},
                         label ="Correo electrónico" ,
                         icon =Icons.Outlined.Email,
                         keyboardType = KeyboardType.Email
                     )
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "",
-                        onValueChange =  {},
+                        value = state.contrasenia,
+                        onValueChange =  {text-> vm.oncontraseniaInput(text)},
                         label ="Contraseña" ,
                         icon =Icons.Outlined.Lock,
-                        keyboardType = KeyboardType.Password
+                        keyboardType = KeyboardType.Password,
+                        hideText = true
                     )
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "",
-                        onValueChange =  {},
+                        value = state.verificarContrasenia,
+                        onValueChange =  {text->vm.onVerificarContraseniaInput(text)},
                         label ="Confirmar contraseña" ,
                         icon =Icons.Outlined.Lock,
-                        keyboardType = KeyboardType.Password
+                        keyboardType = KeyboardType.Password,
+                        hideText = true
                     )
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "",
-                        onValueChange =  {},
+                        value = state.nCelular,
+                        onValueChange =  {text->vm.onNumeroCelular(text)},
                         label ="Teléfono" ,
                         icon =Icons.Default.Call,
                         keyboardType = KeyboardType.Number

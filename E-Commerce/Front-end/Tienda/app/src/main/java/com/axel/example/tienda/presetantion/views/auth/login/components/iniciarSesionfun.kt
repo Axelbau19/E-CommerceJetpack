@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Email
@@ -33,9 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ColorMatrix
-import androidx.compose.ui.layout.ContentScale
+
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -56,6 +56,7 @@ import com.axel.example.tienda.presetantion.views.auth.login.IniciarSesionViewMo
 fun  iniciarSesion(paddingValues: PaddingValues,navController: NavHostController, vM : IniciarSesionViewModel = hiltViewModel()){
     val backGround = painterResource(id = R.drawable.fondito)
     val logo = painterResource(id = R.drawable.logo)
+    val state = vM.state
     Box(modifier = Modifier
         .fillMaxSize()
         .padding(paddingValues = paddingValues)){
@@ -100,8 +101,14 @@ fun  iniciarSesion(paddingValues: PaddingValues,navController: NavHostController
                 .fillMaxSize()
                 .background(Color.White)){
                 Column (
-                    modifier = Modifier.padding(horizontal= 20.dp,
-                        vertical=20.dp)
+                    modifier = Modifier
+                        .padding(
+                            horizontal = 20.dp,
+                            vertical = 20.dp
+                        )
+                        .verticalScroll(rememberScrollState(
+
+                        ))
                 ){
                     Text(
                         modifier= Modifier.padding(bottom = 20.dp),
@@ -112,22 +119,23 @@ fun  iniciarSesion(paddingValues: PaddingValues,navController: NavHostController
                     )
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = vM.correoElectronico,
+                        value = state.correoElectronico,
                         onValueChange ={text->
-                            vM.correoElectronico=text
+                            vM.onEmailinput(text)
                         },
                         label = "Correo Electrónico",
                         icon = Icons.Default.Email
                     )
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = vM.contraseñaUsuario,
+                        value = state.contraseñaUsuario,
                         onValueChange ={text ->
-                                       vM.contraseñaUsuario=text
+                                       vM.onPasswordinput(text)
                         },
                         label = "Contraseña",
                         icon = Icons.Default.Lock,
-                        keyboardType = KeyboardType.Password
+                        keyboardType = KeyboardType.Password,
+                        hideText = true
                     )
                     DefaultButtom(modifier = Modifier
                         .fillMaxWidth()
