@@ -1,5 +1,7 @@
 package com.axel.example.tienda.presetantion.views.auth.login.components
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,6 +30,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -50,6 +54,8 @@ import com.axel.example.tienda.presetantion.components.DefaultTextField
 import com.axel.example.tienda.presetantion.components.fondoPantallaApp
 import com.axel.example.tienda.presetantion.navigation.screen.AuthScreen
 import com.axel.example.tienda.presetantion.views.auth.login.IniciarSesionViewModel
+import kotlinx.coroutines.delay
+import kotlin.math.log
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,6 +63,12 @@ fun  iniciarSesion(paddingValues: PaddingValues,navController: NavHostController
     val backGround = painterResource(id = R.drawable.fondito)
     val logo = painterResource(id = R.drawable.logo)
     val state = vM.state
+    val contexto = LocalContext.current
+    LaunchedEffect(key1 = vM.errorMessage){
+        if(vM.errorMessage !=""){
+           Toast.makeText(contexto, vM.errorMessage , Toast.LENGTH_LONG).show()
+        }
+    }
     Box(modifier = Modifier
         .fillMaxSize()
         .padding(paddingValues = paddingValues)){
@@ -106,9 +118,11 @@ fun  iniciarSesion(paddingValues: PaddingValues,navController: NavHostController
                             horizontal = 20.dp,
                             vertical = 20.dp
                         )
-                        .verticalScroll(rememberScrollState(
+                        .verticalScroll(
+                            rememberScrollState(
 
-                        ))
+                            )
+                        )
                 ){
                     Text(
                         modifier= Modifier.padding(bottom = 20.dp),
@@ -142,7 +156,7 @@ fun  iniciarSesion(paddingValues: PaddingValues,navController: NavHostController
                         .padding(vertical = 10.dp)
                         .padding(top = 10.dp),
                         text = "Iniciar sesión",
-                        onClick = {},
+                        onClick = {vM.validacionForm()},
                         icon = Icons.Default.ArrowForward)
 
                     Row(

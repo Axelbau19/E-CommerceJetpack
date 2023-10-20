@@ -19,7 +19,7 @@ fun DefaultButtom(modifier: Modifier,
                   icon: ImageVector){
     Button(
         modifier = modifier,
-        onClick = {onClick}) {
+        onClick = onClick ) {
         Icon(imageVector = icon ,
             contentDescription =null)
         Text(text = text)

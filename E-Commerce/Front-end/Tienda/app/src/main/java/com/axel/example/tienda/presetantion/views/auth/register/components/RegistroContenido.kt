@@ -1,5 +1,6 @@
 package com.axel.example.tienda.presetantion.views.auth.register.components
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +36,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -51,6 +54,13 @@ fun RegistroContenido(paddingValues: PaddingValues, vm:RegisterViewModel = hiltV
     val state = vm.state
     val fondoImagen = painterResource(id = R.drawable.fondito)
     val usuarioImagen = painterResource(id = R.drawable.user_image)
+    val contexto = LocalContext.current
+    LaunchedEffect(key1 = vm.errorMessage){
+        if(vm.errorMessage !=""){
+            Toast.makeText(contexto, vm.errorMessage , Toast.LENGTH_LONG).show()
+        }
+    }
+
     Box(modifier = Modifier
         .padding(paddingValues = paddingValues)
         .fillMaxSize()){
@@ -136,7 +146,7 @@ fun RegistroContenido(paddingValues: PaddingValues, vm:RegisterViewModel = hiltV
                             .height(50.dp)
                             .padding(top = 15.dp),
                         text = "Confirmar",
-                        onClick = {  },
+                        onClick = {vm.validacionForm()},
                         icon = Icons.Default.Check)
                 }
 
