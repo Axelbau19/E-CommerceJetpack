@@ -5,11 +5,13 @@ import { Repository } from 'typeorm';
 import { RegisterUserDTO } from './dto/register-user.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import {compare} from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 //Function about client (Funciones para el cliente, como iniciar sesion o registrarse)
 @Injectable()
 export class AuthService {
-    constructor(@InjectRepository(User) private usersRepository: Repository<User>){}
+    constructor(@InjectRepository(User) private usersRepository: Repository<User>,
+    private jwtService: JwtService){}
 
     async register(user: RegisterUserDTO){
         const {email,phone} = user;
@@ -34,11 +36,25 @@ export class AuthService {
         if(!userGet){
             return new HttpException('El email no esta registrado',HttpStatus.NOT_FOUND) 
         }
-        //403 the password is invalid 
+        //403 the password is invalid (La contraseña es invalida)
         const validPassword = await compare(password, userGet.password);
         if(!validPassword){
             return new HttpException('La contraseña no es la correcta',HttpStatus.FORBIDDEN)
-        } 
-        return userGet;
+        }
+        //create a token (Creación de Token)
+        const payloadData= {
+            id: userGet.id,
+            name: userGet.name
+        }
+
+        const token = this.jwtService.sign(payloadData)
+
+        const data = {
+            user:userGet,
+            token: token
+        }
+
+
+        return data;
     }
 }
