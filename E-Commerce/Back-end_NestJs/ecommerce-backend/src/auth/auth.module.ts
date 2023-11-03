@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { jtwConstants } from './jwt.constants';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports : [
@@ -13,9 +14,9 @@ import { jtwConstants } from './jwt.constants';
         JwtModule.register({
           secret: jtwConstants.secret,
           //Token Timer(Tiempo de expiracion del token)
-          signOptions: { expiresIn: '1d' },
+          signOptions: { expiresIn: '6h' },
         }),],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy],
   controllers: [AuthController]
 })
 export class AuthModule {}
