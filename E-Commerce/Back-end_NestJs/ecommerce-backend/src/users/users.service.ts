@@ -33,10 +33,13 @@ export class UsersService {
 
     }
 
+<<<<<<< HEAD
     //Upload a image by the user
 
     async updateImageUser(image: Express.Multer.File){
         
     }
 
+=======
+>>>>>>> main
 }
