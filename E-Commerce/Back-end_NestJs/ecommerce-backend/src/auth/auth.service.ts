@@ -26,7 +26,23 @@ export class AuthService {
             return new HttpException('Número de telefono duplicado',HttpStatus.CONFLICT)
         }
         const newUser = this.usersRepository.create(user);
-        return this.usersRepository.save(newUser)
+        const userSave= await this.usersRepository.save(newUser)
+                //create a token (Creación de Token)
+                const payloadData= {
+                    id: userSave.id,
+                    name: userSave.name
+                }
+        
+                const token = this.jwtService.sign(payloadData)
+        
+                const data = {
+                    user:userSave,
+                    token: 'Bearer ' + token
+                }
+                
+                delete data.user.password;
+        
+                return data;
     }
 
     async login(loginData: LoginAuthDto){
@@ -51,9 +67,10 @@ export class AuthService {
 
         const data = {
             user:userGet,
-            token: token
+            token: 'Bearer ' + token
         }
-
+        
+        delete data.user.password;
 
         return data;
     }
