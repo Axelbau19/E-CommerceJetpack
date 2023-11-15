@@ -4,7 +4,7 @@ import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDto } from 'src/auth/dto/update-user.dto';
-import { Http2ServerRequest } from 'http2';
+import storage = require ('../utils/cloud_storage');
 //Comentario
 @Injectable()
 export class UsersService {
@@ -37,6 +37,8 @@ export class UsersService {
 
     async updateImageUser(image: Express.Multer.File){
         //
+        const urlImage = await storage(image,image.originalname);
+        console.log('url ' + urlImage)
     }
 
 
