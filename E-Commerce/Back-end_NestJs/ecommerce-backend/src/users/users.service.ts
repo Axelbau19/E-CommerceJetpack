@@ -33,10 +33,10 @@ export class UsersService {
 
     }
 
-    //Upload a image by the user
+    //Upload a image by the user with firebase google (Subir imagenes a un servicio de google)
 
     async updateImageUser(image: Express.Multer.File){
-        
+        //
     }
 
 
