@@ -38,7 +38,7 @@ export class UsersController {
     }
 
 
-    @Post('upload')
+    @Post('upload/:id')
     @UseInterceptors(FileInterceptor('file'))
     uploadFile(
         @UploadedFile(
@@ -48,9 +48,12 @@ export class UsersController {
                   new FileTypeValidator({ fileType: '.(png|jpeg|jpg)'}),
                 ],
               })
-        ) file: Express.Multer.File
+        ) file: Express.Multer.File,
+        @Param('id',ParseIntPipe) id: number, 
+        @Body() user:UpdateUserDto
         ) {
-        this.UsersService.updateImageUser(file);
+        console.log(file)
+        return this.UsersService.updateImageUser(file,id,user);
     }
 
 

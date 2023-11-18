@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDto } from 'src/auth/dto/update-user.dto';
 import storage = require ('../utils/cloud_storage');
+import { url } from 'inspector';
 //Comentario
 @Injectable()
 export class UsersService {
@@ -35,11 +36,21 @@ export class UsersService {
 
     //Upload a image by the user with firebase google (Subir imagenes a un servicio de google)
 
-    async updateImageUser(image: Express.Multer.File){
+    async updateImageUser(image: Express.Multer.File, idUser:number, userUpdate: UpdateUserDto){
         //
         const urlImage = await storage(image,image.originalname);
-        console.log('url ' + urlImage)
+        console.log('url ' + urlImage);
+        if(urlImage === undefined && urlImage === null){
+            // Error 500 server error 
+            return new HttpException ('No existe la imagén  o no se encuentra',HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+        const userGet = await this.usersRepository.findOneBy({id:idUser})
+        if(!userGet){
+           //Error 404 (Información no encontrada o ruta no encontrada)
+           return new HttpException('No existe el usuario', HttpStatus.NOT_FOUND);
+        }
+        userUpdate.image = urlImage;
+        const updateUser = Object.assign(userGet,userUpdate);
+        return this.usersRepository.save(updateUser)
     }
-
-
 }
