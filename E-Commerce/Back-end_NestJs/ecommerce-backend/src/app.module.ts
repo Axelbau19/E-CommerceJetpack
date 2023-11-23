@@ -6,6 +6,8 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jtwConstants } from './auth/jwt.constants';
+import { RolesModule } from './roles/roles.module';
+
 
 
 
@@ -19,10 +21,11 @@ import { jtwConstants } from './auth/jwt.constants';
         password: 'root',
         database: 'ecommerce_db',
         entities: [__dirname+'/**/*.entity{.ts,.js}'],
-        synchronize: true,
+        synchronize: false
       }),
       UsersModule,
       AuthModule,
+      RolesModule
   ],
   controllers: [AppController],
   providers: [AppService],
