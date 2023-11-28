@@ -1,16 +1,18 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { RegisterUserDTO } from './dto/register-user.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import {compare} from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { Rol } from 'src/roles/rol.entity';
 
 //Function about client (Funciones para el cliente, como iniciar sesion o registrarse)
 @Injectable()
 export class AuthService {
     constructor(@InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(Rol) private rolRepository: Repository<Rol>,
     private jwtService: JwtService){}
 
     async register(user: RegisterUserDTO){
@@ -26,7 +28,13 @@ export class AuthService {
             return new HttpException('Número de telefono duplicado',HttpStatus.CONFLICT)
         }
         const newUser = this.usersRepository.create(user);
-        const userSave= await this.usersRepository.save(newUser)
+        const rolesIds = user.rolesIds;
+        const roles = await this.rolRepository.findBy({id: In(rolesIds)})
+        newUser.roles = roles;
+
+
+
+        const userSave = await this.usersRepository.save(newUser)
                 //create a token (Creación de Token)
                 const payloadData= {
                     id: userSave.id,
