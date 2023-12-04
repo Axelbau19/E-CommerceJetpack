@@ -18,7 +18,7 @@ export class UsersService {
     }
     //Func to get users 
     getAllUsers(){
-        return this.usersRepository.find()
+        return this.usersRepository.find({relations:['roles']})
     }
 
     //Update (Actualizar la información)

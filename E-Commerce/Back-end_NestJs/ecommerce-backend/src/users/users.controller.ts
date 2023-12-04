@@ -37,7 +37,7 @@ export class UsersController {
         return this.UsersService.update(id,user);
     }
 
-
+    @UseGuards(JwtAuthGuard)
     @Post('upload/:id')
     @UseInterceptors(FileInterceptor('file'))
     uploadFile(
