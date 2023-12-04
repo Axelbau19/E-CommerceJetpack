@@ -31,14 +31,13 @@ export class AuthService {
         const rolesIds = user.rolesIds;
         const roles = await this.rolRepository.findBy({id: In(rolesIds)})
         newUser.roles = roles;
-
-
-
         const userSave = await this.usersRepository.save(newUser)
+        const rolesString = userSave.roles.map(rol => rol.id )
                 //create a token (Creación de Token)
                 const payloadData= {
                     id: userSave.id,
-                    name: userSave.name
+                    name: userSave.name,
+                    roles: rolesString
                 }
         
                 const token = this.jwtService.sign(payloadData)
@@ -68,10 +67,17 @@ export class AuthService {
         if(!validPassword){
             return new HttpException('La contraseña no es la correcta',HttpStatus.FORBIDDEN)
         }
+        //Protect the user's route with him rol (Protegiendo la ruta del usuario de acuerdo con su rol).
+
+        const rolesId = userGet.roles.map(rol => rol.id) // this has created an array what has roles by user (Crea un arreglo donde se almacena los roles del usuario)
+
+
+
         //create a token (Creación de Token)
         const payloadData= {
             id: userGet.id,
-            name: userGet.name
+            name: userGet.name,
+            roles: rolesId
         }
 
         const token = this.jwtService.sign(payloadData)
