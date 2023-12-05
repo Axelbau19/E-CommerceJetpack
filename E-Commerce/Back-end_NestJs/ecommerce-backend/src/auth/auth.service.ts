@@ -20,15 +20,21 @@ export class AuthService {
         const emailExist = await this.usersRepository.findOneBy({email: email});
         if(emailExist){
             //409 Duplicated email (Email duplicado)
-            return new HttpException('Email duplicado',HttpStatus.CONFLICT);
+            throw new HttpException('Email duplicado',HttpStatus.CONFLICT);
         }
             //Duplicate Number Phone (Numero telefono duplicado)
         const phoneNumberExist = await this.usersRepository.findOneBy({phone: phone})
         if(phoneNumberExist){
-            return new HttpException('Número de telefono duplicado',HttpStatus.CONFLICT)
+            throw new HttpException('Número de telefono duplicado',HttpStatus.CONFLICT)
         }
         const newUser = this.usersRepository.create(user);
-        const rolesIds = user.rolesIds;
+        let rolesIds = [];
+        if(user.rolesIds !== undefined && user.rolesIds !== null){
+            rolesIds = user.rolesIds;
+        }else{
+            rolesIds.push('CLIENT')
+        }
+        
         const roles = await this.rolRepository.findBy({id: In(rolesIds)})
         newUser.roles = roles;
         const userSave = await this.usersRepository.save(newUser)
@@ -60,12 +66,12 @@ export class AuthService {
             relations : ['roles']
         })
         if(!userGet){
-            return new HttpException('El email no esta registrado',HttpStatus.NOT_FOUND) 
+            throw new HttpException('El email no esta registrado',HttpStatus.NOT_FOUND) 
         }
         //403 the password is invalid (La contraseña es invalida)
         const validPassword = await compare(password, userGet.password);
         if(!validPassword){
-            return new HttpException('La contraseña no es la correcta',HttpStatus.FORBIDDEN)
+            throw new HttpException('La contraseña no es la correcta',HttpStatus.FORBIDDEN)
         }
         //Protect the user's route with him rol (Protegiendo la ruta del usuario de acuerdo con su rol).
 

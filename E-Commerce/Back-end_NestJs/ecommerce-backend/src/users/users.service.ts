@@ -27,7 +27,7 @@ export class UsersService {
          const userGet = await this.usersRepository.findOneBy({id:id})
          if(!userGet){
             //Error 404 (Información no encontrada o ruta no encontrada)
-            return new HttpException('No existe el usuario', HttpStatus.NOT_FOUND);
+            throw new HttpException('No existe el usuario', HttpStatus.NOT_FOUND);
          }
          const updateUser = Object.assign(userGet,userUpdate);
          return this.usersRepository.save(updateUser)
@@ -42,12 +42,12 @@ export class UsersService {
         console.log('url ' + urlImage);
         if(urlImage === undefined && urlImage === null){
             // Error 500 server error 
-            return new HttpException ('No existe la imagén  o no se encuentra',HttpStatus.INTERNAL_SERVER_ERROR)
+            throw new HttpException ('No existe la imagén  o no se encuentra',HttpStatus.INTERNAL_SERVER_ERROR)
         }
         const userGet = await this.usersRepository.findOneBy({id:idUser})
         if(!userGet){
            //Error 404 (Información no encontrada o ruta no encontrada)
-           return new HttpException('No existe el usuario', HttpStatus.NOT_FOUND);
+           throw new HttpException('No existe el usuario', HttpStatus.NOT_FOUND);
         }
         userUpdate.image = urlImage;
         const updateUser = Object.assign(userGet,userUpdate);
