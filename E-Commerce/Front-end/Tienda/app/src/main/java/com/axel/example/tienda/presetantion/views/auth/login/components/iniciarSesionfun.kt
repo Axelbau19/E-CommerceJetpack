@@ -156,7 +156,7 @@ fun  iniciarSesion(paddingValues: PaddingValues,navController: NavHostController
                         .padding(vertical = 10.dp)
                         .padding(top = 10.dp),
                         text = "Iniciar sesión",
-                        onClick = {vM.validacionForm()},
+                        onClick = {vM.inicioSesion()},
                         icon = Icons.Default.ArrowForward)
 
                     Row(
