@@ -6,6 +6,7 @@ import android.util.Patterns
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.axel.example.tienda.domain.model.AuthResponse
 import com.axel.example.tienda.domain.model.User
 import com.axel.example.tienda.domain.utils.Response
 import com.axel.example.tienda.domain.usecase.auth.AuthUseCase
@@ -23,7 +24,7 @@ class IniciarSesionViewModel  @Inject constructor(private val authUseCase:AuthUs
     var errorMessage by mutableStateOf("")
         private set
   // Respuesta al iniciar sesion
-  var inicioRespuesta by mutableStateOf<Response<User>?>(null)
+  var inicioRespuesta by mutableStateOf<Response<AuthResponse>?>(null)
       private set
 
   fun inicioSesion() = viewModelScope.launch {
@@ -31,7 +32,7 @@ class IniciarSesionViewModel  @Inject constructor(private val authUseCase:AuthUs
           inicioRespuesta = Response.Loading
           val respuestaConexion = authUseCase.inicioSesion(state.correoElectronico,state.contraseñaUsuario)
           inicioRespuesta = respuestaConexion
-          Log.d("IniciarSesionViewModel", "Respuesta:${inicioRespuesta}")
+          //Log.d("IniciarSesionViewModel", "Respuesta:${inicioRespuesta}")
       }
 
   }

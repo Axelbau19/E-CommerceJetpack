@@ -1,5 +1,6 @@
 package com.axel.example.tienda.core
 
 object Configuracion {
-    const val BASE_URL = "http://localhost:3000/"
+    //Cambiar la ip si se cambia la red
+    const val BASE_URL = "http://192.168.100.113:3000/"
 }
