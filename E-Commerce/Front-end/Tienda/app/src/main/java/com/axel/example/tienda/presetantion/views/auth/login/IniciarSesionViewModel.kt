@@ -1,17 +1,14 @@
 package com.axel.example.tienda.presetantion.views.auth.login
 
 
-import android.util.Log
 import android.util.Patterns
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.axel.example.tienda.domain.model.AuthResponse
-import com.axel.example.tienda.domain.model.User
-import com.axel.example.tienda.domain.utils.Response
+import com.axel.example.tienda.domain.utils.ResponseResource
 import com.axel.example.tienda.domain.usecase.auth.AuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,12 +21,12 @@ class IniciarSesionViewModel  @Inject constructor(private val authUseCase:AuthUs
     var errorMessage by mutableStateOf("")
         private set
   // Respuesta al iniciar sesion
-  var inicioRespuesta by mutableStateOf<Response<AuthResponse>?>(null)
+  var inicioRespuesta by mutableStateOf<ResponseResource<AuthResponse>?>(null)
       private set
 
   fun inicioSesion() = viewModelScope.launch {
       if(validacionForm()){
-          inicioRespuesta = Response.Loading
+          inicioRespuesta = ResponseResource.Loading
           val respuestaConexion = authUseCase.inicioSesion(state.correoElectronico,state.contraseñaUsuario)
           inicioRespuesta = respuestaConexion
           //Log.d("IniciarSesionViewModel", "Respuesta:${inicioRespuesta}")

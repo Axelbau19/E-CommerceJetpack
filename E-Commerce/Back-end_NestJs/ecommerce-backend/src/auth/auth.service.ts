@@ -94,7 +94,6 @@ export class AuthService {
         }
         
         delete data.user.password;
-        console.log('Data return',data)
 
         return userGet;
     }

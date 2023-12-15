@@ -2,19 +2,19 @@ package com.axel.example.tienda.data.repository
 
 import com.axel.example.tienda.data.repository.dataSource.AuthRemoteDataSource
 import com.axel.example.tienda.domain.model.AuthResponse
-import com.axel.example.tienda.domain.model.User
 import com.axel.example.tienda.domain.repository.AuthRepositorio
-import com.axel.example.tienda.domain.utils.Response
+import com.axel.example.tienda.domain.utils.ResponseResource
 
 class AuthRepositorioImplement(private  val authRemoteDataSource: AuthRemoteDataSource): AuthRepositorio {
-    override suspend fun login(email: String, password: String): Response<AuthResponse> {
+    override suspend fun login(email: String, password: String): ResponseResource<AuthResponse> {
         return try {
             val resultado = authRemoteDataSource.login(email,password)
             //Opcional
-            Response.Success(resultado.body()!!)
+            ResponseResource.Success(resultado.body()!!)
         }catch (e: Exception){
+            //Log.d("IniciarsesionViewModelImpt","Error"+e)
             e.printStackTrace()
-            Response.Failure(e)
+            ResponseResource.Failure(e)
         }
     }
 

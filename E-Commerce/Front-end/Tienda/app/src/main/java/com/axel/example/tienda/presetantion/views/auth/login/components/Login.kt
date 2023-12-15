@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.axel.example.tienda.domain.utils.Response
+import com.axel.example.tienda.domain.utils.ResponseResource
 import com.axel.example.tienda.presetantion.navigation.screen.AuthScreen
 import com.axel.example.tienda.presetantion.views.auth.login.IniciarSesionViewModel
 
@@ -19,23 +19,25 @@ import com.axel.example.tienda.presetantion.views.auth.login.IniciarSesionViewMo
 @Composable
 fun Login( navController: NavController, vm:IniciarSesionViewModel = hiltViewModel()){
     when(val respuesta = vm.inicioRespuesta){
-        Response.Loading ->{
+        ResponseResource.Loading ->{
             Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center ){
                     CircularProgressIndicator()
             }
         }
-         is Response.Success -> {
+         is ResponseResource.Success -> {
             LaunchedEffect(Unit){
                 navController.navigate(route = AuthScreen.Home.route)
             }
         }
-         is Response.Failure -> {
-            Toast.makeText(LocalContext.current,respuesta.exception.message,Toast.LENGTH_SHORT).show()
+         is ResponseResource.Failure -> {
+            Toast.makeText(LocalContext.current,respuesta.exception?.message?:"Error",Toast.LENGTH_SHORT).show()
         }
          else ->{
-             Toast.makeText(LocalContext.current,"Error desconocido",Toast.LENGTH_SHORT).show()
+             if(respuesta != null  ){
+                 Toast.makeText(LocalContext.current,"Error desconocido",Toast.LENGTH_SHORT).show()
+             }
          }
     }
 
