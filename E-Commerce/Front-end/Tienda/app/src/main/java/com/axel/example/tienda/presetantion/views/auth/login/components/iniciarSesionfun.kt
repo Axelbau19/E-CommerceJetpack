@@ -66,7 +66,8 @@ fun  iniciarSesion(paddingValues: PaddingValues,navController: NavHostController
     val contexto = LocalContext.current
     LaunchedEffect(key1 = vM.errorMessage){
         if(vM.errorMessage !=""){
-           Toast.makeText(contexto, vM.errorMessage , Toast.LENGTH_LONG).show()
+            Toast.makeText(contexto, vM.errorMessage , Toast.LENGTH_LONG).show()
+            vM.errorMessage = ""
         }
     }
     Box(modifier = Modifier

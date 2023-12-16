@@ -1,7 +1,7 @@
 package com.axel.example.tienda.domain.repository
 
 import com.axel.example.tienda.domain.model.AuthResponse
-import com.axel.example.tienda.domain.utils.ResponseResource
+import com.axel.example.tienda.domain.ResponseResource
 
 interface AuthRepositorio {
     //Login , Register ....

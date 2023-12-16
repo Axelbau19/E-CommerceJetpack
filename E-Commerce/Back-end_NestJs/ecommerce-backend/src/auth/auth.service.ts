@@ -66,7 +66,7 @@ export class AuthService {
             relations : ['roles']
         })
         if(!userGet){
-            throw new HttpException('El email no esta registrado',HttpStatus.NOT_FOUND) 
+            throw new HttpException('El email no encontrado',HttpStatus.NOT_FOUND) 
         }
         //403 the password is invalid (La contraseña es invalida)
         const validPassword = await compare(password, userGet.password);

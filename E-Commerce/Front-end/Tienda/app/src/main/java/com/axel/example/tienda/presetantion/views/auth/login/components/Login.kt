@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.axel.example.tienda.domain.utils.ResponseResource
+import com.axel.example.tienda.domain.ResponseResource
 import com.axel.example.tienda.presetantion.navigation.screen.AuthScreen
 import com.axel.example.tienda.presetantion.views.auth.login.IniciarSesionViewModel
 
@@ -32,7 +32,7 @@ fun Login( navController: NavController, vm:IniciarSesionViewModel = hiltViewMod
             }
         }
          is ResponseResource.Failure -> {
-            Toast.makeText(LocalContext.current,respuesta.exception?.message?:"Error",Toast.LENGTH_SHORT).show()
+            Toast.makeText(LocalContext.current,respuesta.mensajeError,Toast.LENGTH_SHORT).show()
         }
          else ->{
              if(respuesta != null  ){
