@@ -6,6 +6,7 @@ import com.axel.example.tienda.data.repository.dataSourceImplement.AuthRemoteDat
 import com.axel.example.tienda.domain.repository.AuthRepositorio
 import com.axel.example.tienda.domain.usecase.auth.AuthUseCase
 import com.axel.example.tienda.domain.usecase.auth.IniciarSesionUseCase
+import com.axel.example.tienda.domain.usecase.auth.RegisterUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +19,9 @@ import dagger.hilt.components.SingletonComponent
 object UseCaseModulo {
     @Provides
     fun proveerInformacionAuthCase(authRepositorio: AuthRepositorio) = AuthUseCase(
-            inicioSesion = IniciarSesionUseCase(authRepositorio)
+            inicioSesion = IniciarSesionUseCase(authRepositorio),
+            register = RegisterUseCase(authRepositorio)
+
     )
 
 }

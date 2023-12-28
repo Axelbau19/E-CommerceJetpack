@@ -6,7 +6,7 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.axel.example.tienda.domain.model.AuthResponse
-import com.axel.example.tienda.domain.ResponseResource
+import com.axel.example.tienda.domain.utils.ResponseResource
 import com.axel.example.tienda.domain.usecase.auth.AuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

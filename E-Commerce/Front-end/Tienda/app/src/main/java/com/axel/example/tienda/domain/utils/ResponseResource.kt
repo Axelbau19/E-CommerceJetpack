@@ -1,4 +1,4 @@
-package com.axel.example.tienda.domain
+package com.axel.example.tienda.domain.utils
 //Creacion de 3 estados
 sealed class ResponseResource<out T>{
     //Inicializar por defecto
