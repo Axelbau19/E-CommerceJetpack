@@ -10,6 +10,7 @@ import com.axel.example.tienda.presetantion.navigation.screen.AuthScreen
 import com.axel.example.tienda.presetantion.views.auth.home.HomeVista
 import com.axel.example.tienda.presetantion.views.auth.login.iniciarSesionVista
 import com.axel.example.tienda.presetantion.views.auth.register.RegistroUsuarioVista
+import com.axel.example.tienda.presetantion.views.auth.roles.RolesView
 
 fun NavGraphBuilder.AuthNavGraph(navController: NavHostController){
     navigation(
@@ -26,6 +27,11 @@ fun NavGraphBuilder.AuthNavGraph(navController: NavHostController){
         composable(route=AuthScreen.Home.route){
             HomeVista(navController)
         }
+
+        composable(route=AuthScreen.Roles.route){
+            RolesView(navController)
+        }
+
 
     }
 }

@@ -20,6 +20,7 @@ fun Login( navController: NavController, vm:IniciarSesionViewModel = hiltViewMod
         }
          is ResponseResource.Success -> {
             LaunchedEffect(Unit){
+                vm.guardarSesion(respuesta.data)
                 navController.navigate(route = AuthScreen.Home.route)
             }
         }

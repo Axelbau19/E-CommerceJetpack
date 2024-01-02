@@ -5,7 +5,9 @@ import com.axel.example.tienda.data.repository.dataSource.AuthRemoteDataSource
 import com.axel.example.tienda.data.repository.dataSourceImplement.AuthRemoteDataSourceImplement
 import com.axel.example.tienda.domain.repository.AuthRepositorio
 import com.axel.example.tienda.domain.usecase.auth.AuthUseCase
+import com.axel.example.tienda.domain.usecase.auth.GuardarSesionUseCase
 import com.axel.example.tienda.domain.usecase.auth.IniciarSesionUseCase
+import com.axel.example.tienda.domain.usecase.auth.ObtenerSesionInfoUseCase
 import com.axel.example.tienda.domain.usecase.auth.RegisterUseCase
 import dagger.Module
 import dagger.Provides
@@ -20,7 +22,9 @@ object UseCaseModulo {
     @Provides
     fun proveerInformacionAuthCase(authRepositorio: AuthRepositorio) = AuthUseCase(
             inicioSesion = IniciarSesionUseCase(authRepositorio),
-            register = RegisterUseCase(authRepositorio)
+            register = RegisterUseCase(authRepositorio),
+            guardarSesion = GuardarSesionUseCase(authRepositorio),
+            obtenerSesionInfo = ObtenerSesionInfoUseCase(authRepositorio)
 
     )
 
