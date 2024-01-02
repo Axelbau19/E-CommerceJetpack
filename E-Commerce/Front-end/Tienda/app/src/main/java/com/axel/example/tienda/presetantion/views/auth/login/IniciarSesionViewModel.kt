@@ -1,6 +1,7 @@
 package com.axel.example.tienda.presetantion.views.auth.login
 
 
+import android.util.Log
 import android.util.Patterns
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import com.axel.example.tienda.domain.model.AuthResponse
 import com.axel.example.tienda.domain.utils.ResponseResource
 import com.axel.example.tienda.domain.usecase.auth.AuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,11 +19,27 @@ class IniciarSesionViewModel  @Inject constructor(private val authUseCase:AuthUs
     var state by mutableStateOf(LoginState())
         //Evitar que sea alterado desde otra clase
         private set
-
     var errorMessage by mutableStateOf("")
   // Respuesta al iniciar sesion
-  var inicioRespuesta by mutableStateOf<ResponseResource<AuthResponse>?>(null)
+    var inicioRespuesta by mutableStateOf<ResponseResource<AuthResponse>?>(null)
       private set
+
+    init {
+        obtenerInfoSesion()
+    }
+
+
+    fun obtenerInfoSesion()= viewModelScope.launch {
+        authUseCase.obtenerSesionInfo().collect(){data ->
+            if (!data.token.isNullOrBlank()){
+                inicioRespuesta = ResponseResource.Success(data)
+             }
+        }
+    }
+  fun guardarSesion(authResponse: AuthResponse) = viewModelScope.launch {
+      authUseCase.guardarSesion(authResponse)
+  }
+
 
   fun inicioSesion() = viewModelScope.launch {
       if(validacionForm()){
