@@ -8,6 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.axel.example.tienda.domain.utils.ResponseResource
 import com.axel.example.tienda.presetantion.components.progressBar
+import com.axel.example.tienda.presetantion.navigation.Graph
 import com.axel.example.tienda.presetantion.navigation.screen.AuthScreen
 import com.axel.example.tienda.presetantion.views.auth.login.IniciarSesionViewModel
 
@@ -21,7 +22,20 @@ fun Login( navController: NavController, vm:IniciarSesionViewModel = hiltViewMod
          is ResponseResource.Success -> {
             LaunchedEffect(Unit){
                 vm.guardarSesion(respuesta.data)
-                navController.navigate(route = AuthScreen.Home.route)
+                if (respuesta.data.user?.roles?.size?:0 > 1){
+                    navController.navigate(route = Graph.ROLES){
+                        popUpTo(Graph.AUTH){
+                            inclusive = true
+                        }
+                }
+
+            }else{
+                    navController.navigate(route = Graph.CLIENT){
+                        popUpTo(Graph.AUTH){
+                            inclusive = true
+                        }
+                    }
+                }
             }
         }
          is ResponseResource.Failure -> {

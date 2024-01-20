@@ -5,26 +5,29 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.axel.example.tienda.presetantion.navigation.Graph
+import com.axel.example.tienda.presetantion.navigation.screen.AdminScreen
 import com.axel.example.tienda.presetantion.navigation.screen.AuthScreen
+import com.axel.example.tienda.presetantion.navigation.screen.RolesScreen
 import com.axel.example.tienda.presetantion.views.admin.home.AdminHomeVista
-import com.axel.example.tienda.presetantion.views.auth.login.iniciarSesionVista
-import com.axel.example.tienda.presetantion.views.auth.register.RegistroUsuarioVista
+
 import com.axel.example.tienda.presetantion.views.auth.roles.RolesView
 import com.axel.example.tienda.presetantion.views.client.home.ClientHomeVista
 
-fun NavGraphBuilder.AuthNavGraph(navController: NavHostController){
+
+fun NavGraphBuilder.RolesNavGraph(navController: NavHostController){
     navigation(
-        route=Graph.AUTH,
-        startDestination = AuthScreen.Login.route
+        route=Graph.ROLES,
+        startDestination = RolesScreen.Roles.route
 
     ){
-        composable(route=AuthScreen.Login.route){
-            iniciarSesionVista(navController)
+        composable(route=RolesScreen.Roles.route){
+            RolesView(navController)
         }
-        composable(route=AuthScreen.Register.route){
-            RegistroUsuarioVista(navController)
+        composable(route = Graph.CLIENT){
+            ClientHomeVista()
         }
-
-
+        composable(route = Graph.ADMIN){
+           AdminHomeVista()
+        }
     }
 }

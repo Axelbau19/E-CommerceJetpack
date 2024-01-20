@@ -90,8 +90,8 @@ fun  iniciarSesion(paddingValues: PaddingValues,navController: NavHostController
 
         Text(
             modifier = Modifier.padding(top = 7.dp),
-            //poner de nombre la tienda Narcissist
-            text = "Tienda",
+            //poner de nombre la tienda
+            text = "Cuidado con el gato",
             fontWeight = FontWeight.Bold,
             color = Color.White,
             fontSize = 20.sp

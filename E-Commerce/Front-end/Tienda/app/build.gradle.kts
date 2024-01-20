@@ -83,6 +83,15 @@ dependencies {
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
     //Data Store
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.5.0")
+    //
+    implementation ("androidx.activity:activity-compose:1.4.0")
+    implementation ("androidx.compose.ui:ui:1.1.0")
+    implementation ("androidx.compose.material:material:1.1.0")
+
+
+
 
 
 }

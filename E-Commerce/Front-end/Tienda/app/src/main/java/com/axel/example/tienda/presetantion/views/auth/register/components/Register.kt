@@ -8,6 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.axel.example.tienda.domain.utils.ResponseResource
 import com.axel.example.tienda.presetantion.components.progressBar
+import com.axel.example.tienda.presetantion.navigation.Graph
 import com.axel.example.tienda.presetantion.navigation.screen.AuthScreen
 import com.axel.example.tienda.presetantion.views.auth.register.RegisterViewModel
 
@@ -16,8 +17,14 @@ fun Register(navHostController: NavHostController, vm: RegisterViewModel = hiltV
     when(val response = vm.registerResponsee ){
         ResponseResource.Loading -> {progressBar()}
         is ResponseResource.Success -> {
-            LaunchedEffect(Unit){
-                navHostController.navigate(route = AuthScreen.Home.route)
+            LaunchedEffect(Unit) {
+                vm.guardarSesion(response.data)
+
+                navHostController.navigate(route = Graph.CLIENT) {
+                    popUpTo(Graph.AUTH) {
+                        inclusive = true
+                    }
+                }
             }
         }
         is ResponseResource.Failure -> {

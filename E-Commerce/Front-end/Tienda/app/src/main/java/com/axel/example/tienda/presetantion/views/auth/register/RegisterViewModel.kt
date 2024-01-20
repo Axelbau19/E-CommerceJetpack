@@ -24,6 +24,11 @@ class RegisterViewModel @Inject constructor(private val authUseCase: AuthUseCase
     var registerResponsee by mutableStateOf<ResponseResource<AuthResponse>?>(null)
         private set
 
+
+    fun guardarSesion(authResponse: AuthResponse) = viewModelScope.launch {
+        authUseCase.guardarSesion(authResponse)
+    }
+
     fun register() = viewModelScope.launch {
         if(validacionForm()){
             registerResponsee = ResponseResource.Loading
